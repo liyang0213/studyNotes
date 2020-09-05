@@ -258,7 +258,7 @@ public interface Predicate<T> {
 
 #### 	Lambda表达式的冗余场景
 
-![image-20200826164839903](C:\Users\L1822\AppData\Roaming\Typora\typora-user-images\image-20200826164839903.png)
+![image-20200826164839903](.assets/image-20200826164839903.png)
 
 #### 	方法用于格式
 
@@ -270,11 +270,11 @@ public interface Predicate<T> {
 
 #### 	常见方法引用方式
 
-​		![image-20200826165744492](C:\Users\L1822\AppData\Roaming\Typora\typora-user-images\image-20200826165744492.png)
+​											![image-20200826165744492](.assets/image-20200826165744492.png)
 
 #### 	对象名::引用成员方法
 
-![image-20200826170954888](C:\Users\L1822\AppData\Roaming\Typora\typora-user-images\image-20200826170954888.png)
+![image-20200826170954888](.assets/image-20200826170954888.png)
 
 ###### 		注意事项：
 
@@ -284,21 +284,21 @@ public interface Predicate<T> {
 
 #### 	类名::引用静态方法
 
-​		![image-20200826170925882](C:\Users\L1822\AppData\Roaming\Typora\typora-user-images\image-20200826170925882.png)
+​					![image-20200826170925882](.assets/image-20200826170925882.png)
 
 #### 	类名::引用实例方法
 
-![image-20200826171041673](C:\Users\L1822\AppData\Roaming\Typora\typora-user-images\image-20200826171041673.png)
+![image-20200826171041673](.assets/image-20200826171041673.png)
 
 #### 	类名::new引用构造器
 
-![image-20200826171122452](C:\Users\L1822\AppData\Roaming\Typora\typora-user-images\image-20200826171122452.png)
+![image-20200826171122452](.assets/image-20200826171122452.png)
 
-![image-20200826171139794](C:\Users\L1822\AppData\Roaming\Typora\typora-user-images\image-20200826171139794.png)
+![image-20200826171139794](.assets/image-20200826171139794.png)
 
 #### 	类名::new 引用数组构造器
 
-​	![image-20200826171224608](C:\Users\L1822\AppData\Roaming\Typora\typora-user-images\image-20200826171224608.png)
+​					![image-20200826171224608](.assets/image-20200826171224608.png)
 
 ​	*：方法引用是对Lambda表达式符合特定情况下的一种缩写，它使得Lambda表达式更加精简，也可以理解成Lambda表达式的缩写形式，不过要注意方法引用只能"引用"已经存在的方法
 
