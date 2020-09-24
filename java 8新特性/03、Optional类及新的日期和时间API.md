@@ -300,6 +300,8 @@ public void test06() {
 public void test04() { 
     // 得到当前日期时间 
     LocalDateTime now = LocalDateTime.now(); 
+    // JDK自带的时间格式
+    // DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME; 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); 
     // 将日期时间格式化为字符串 
     String format = now.format(formatter); 
@@ -320,6 +322,7 @@ public void test04() {
 // 时间戳 
 @Test 
 public void test07() { 
+    // Instant内部保存了秒和纳秒，一般不是给用户用的，而是方便程序做一些统计
 	Instant now = Instant.now(); 
     System.out.println("当前时间戳 = " + now);
     // 获取从1970年1月1日 00:00:00的秒 
@@ -451,11 +454,122 @@ public void test10() {
 
 ### 	重复注解的使用
 
+​	自从Java 5中引入 注解 以来，注解开始变得非常流行，并在各个框架和项目中被广泛使用。不过注解有一个很大的限制是：在同一个地方不能多次使用同一个注解。JDK 8引入了重复注解的概念，允许在同一个地方多次使用同一个注解。在JDK 8中使用**@Repeatable**注解定义重复注解。
 
+#### 	重复注解的使用步骤：
+
+##### 		1、 定义重复的注解容器注解
+
+```java
+@Retention(RetentionPolicy.RUNTIME) 
+@interface MyTests { 
+	MyTest[] value(); 
+}
+```
+
+##### 		2、 定义一个可以重复的注解
+
+```java
+@Retention(RetentionPolicy.RUNTIME) 
+@Repeatable(MyTests.class) 
+@interface MyTest { 
+    String value(); 
+}
+```
+
+##### 		3、配置多个重复的注解
+
+```java
+@MyTest("tbc") 
+@MyTest("tba") 
+@MyTest("tba") 
+public class Demo01 { 
+    
+    @MyTest("mbc") 
+    @MyTest("mba") 
+    public void test() throws NoSuchMethodException { 
+    
+    } 
+}
+```
+
+##### 		4、解析得到指定注解
+
+```java
+// 3.配置多个重复的注解 
+@MyTest("tbc") 
+@MyTest("tba") 
+@MyTest("tba")
+public class Demo01 { 
+    @Test 
+    @MyTest("mbc") 
+    @MyTest("mba") 
+    public void test() throws NoSuchMethodException { 
+        // 4.解析得到类上的指定注解 
+        MyTest[] tests = Demo01.class.getAnnotationsByType(MyTest.class); 
+        for (MyTest test : tests) { 
+            System.out.println(test.value()); 
+        }
+        System.out.println("-----------------------");
+        // 得到方法上的指定注解 
+        Annotation[] tests1 = Demo01.class.getMethod("test").getAnnotationsByType(MyTest.class); 
+        for (Annotation annotation : tests1) { 
+            System.out.println("annotation = " + annotation); 
+        } 
+    } 
+}
+```
+
+![image-20200924100518908](.assets/image-20200924100518908.png)
 
 
 
 ### 	类型注解的使用
 
+​	JDK 8为@Target元注解新增了两种类型： TYPE_PARAMETER ， TYPE_USE 。 
+
+​		TYPE_PARAMETER ：表示该注解能写在类型参数的声明语句中。 类型参数声明如： <T> 、 
+
+​		TYPE_USE ：表示注解可以再任何用到类型的地方使用。
+
+#### 	TYPE_PARAMETER的使用
+
+```java
+@Target(ElementType.TYPE_PARAMETER) 
+@interface TyptParam { 
+    
+}
+public class Demo02<@TyptParam T> { 
+    public static void main( String[] args) {
+    
+    }
+    
+    public <@TyptParam E> void test( String a) {
+    
+    } 
+}
+```
+
+#### 		TYPE_USE的使用
+
+```java
+@Target(ElementType.TYPE_USE) 
+@interface NotNull {
+
+}
+public class Demo02<@TyptParam T extends String> { 
+    private @NotNull int a = 10;
+    public static void main(@NotNull String[] args) { 
+        @NotNull int x = 1;
+        @NotNull String s = new @NotNull String();
+    }
+    public <@TyptParam E> void test( String a) { 
+    } 
+}
+```
 
 
+
+### 小结
+
+​	通过@Repeatable元注解可以定义可重复注解， TYPE_PARAMETER 可以让注解放在泛型上， TYPE_USE 可以让注解放在类型的前面
